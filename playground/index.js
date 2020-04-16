@@ -1,9 +1,5 @@
 /**
- * ============= THIS IS JUST A PRACTICE DOC TO UNDERSTAND ES ========================
- * ============= DOWN HERE ALL NOTES are mentioned about concepts and features learned ========
- *
- *
- *
+ * 
  * *************  Notes for Query *************** 
  *  API DOCS https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html
  *  Elatic Guide : https://www.elastic.co/guide/en/elasticsearch/reference/current/query-filter-context.html
@@ -46,6 +42,61 @@
  * must => clause that must appear 
  * should => may or may not, it is more relaxed search than must
  * must_not => inverse of must 
+ * 
+ * 
+ * ****************** Aggregation Query *************** 
+ * Types: 
+ * 1) Metric 
+ * 2) Bucketing 
+ * 3) Matrix
+ * 4) Pipeline  
+ * 
+ * 
+ * Matrix Aggregation: 
+ *    - Aggregation over set of docs 
+ *    - documents in search results 
+ *    - documents in logical group 
+ *    -
+ * Bucketing: 
+ *    - logical group documents based on search query 
+ *    - document falls into bucket if criteria match 
+ * 
+ * 
+ * Pipeline: 
+ *   - out of one step is input to other 
+ * 
+ * Metric: 
+ *   - sum avg count ...etc 
+ * 
+ * 
+ * 
+ * aggs: cardinality to find unique value count 
+ * 
+ * !! in elastic search field data such as gender is 
+ * disabled by default because of heap memory 
+ * to enable and use it in aggregation 
+ * 
+ * Change properties via Mapping API  
+ *  
+ * 
+ * Bucketing: 
+ *  - data can be keyed using keyed: true 
+ *  - and specifying the required key 
+ *  - in the aggs function field 
+ * 
+ * aggs: { 
+ *      bucket_name: { 
+ *          terms: { 
+ *              field: "gender"
+ *          }
+ *          
+ *      }
+ * 
+ * }
+ * 
+ * Mutli-level aggregations can be used to 
+ * create nested buckets. 
+ * filter commands can be used to filter withing aggregation
  * 
  * 
  */
@@ -229,19 +280,119 @@ app.get('/search', async (req, res) => {
 
 
         /* Q9 - Must Search Boolean */
-        const {body} = await client.search({
-            index: 'customers', 
+        // const {body} = await client.search({
+        //     index: 'customers', 
+        //     body: { 
+        //         query: { 
+        //             bool: { 
+        //                 must: [
+        //                     {match : {state: 'alaska'}},
+        //                     {match: {city: 'hamilton'}}
+        //                 ]
+        //             }
+        //         }
+        //     }
+        // })
+
+        /* Q10 - FILTER => Range query */
+        // const {body} = await client.search({
+        //     index: 'customers', 
+        //     body: { 
+        //         query: {
+        //             bool: { 
+        //                 must: { match_all:  {}}, 
+        //                 filter: {
+        //                     range: { 
+        //                         age: { 
+        //                             "gte" : 20, 
+        //                             "lte" : 30
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // })
+
+        /* Q11 - FIlter by range and term */
+        // const {body} = await client.search({
+        //     index: 'customers', 
+        //     body: { 
+        //         query: { 
+        //             bool: {
+        //                 must: {
+        //                     match : { 
+        //                         state: 'alaska'
+        //                     }
+        //                 },
+
+
+        //                 filter: [
+        //                     {term: {gender: 'female'}},  
+        //                     {range : {age: {lte : 50}}}
+        //                 ]
+        //             }
+        //         }
+        //     }
+        // })
+
+
+        /* Q12 - Metric Aggregation -> AVG */
+        // const {body} = await client.search({
+        //     index: 'customers', 
+
+        //     body: {
+        //         aggs: { 
+        //             avg_age: { 
+        //                 avg: {
+        //                     field: "age" 
+        //                 }
+        //             }
+        //         }
+        //     }
+
+        // })
+        // console.log(body.aggregations); 
+
+        /* Q13 - Combine Search and Aggregation */
+        // const { body } = await client.search({
+        //     index: 'customers', 
+        //     body: { 
+        //         query: { 
+        //             bool: {
+        //                 filter: {
+        //                     match: {state: 'alaska'}
+        //                 }
+        //             }
+        //         },
+        //         aggs: { 
+        //             avg_age: { 
+        //                 avg: {
+        //                     field: "age" 
+        //                 }
+        //             }
+        //         }
+
+        //     }
+
+        // })
+        // console.log(body.aggregations); 
+
+
+        /* Q14 - Stats Aggregation */
+        const { body } = await client.search({
+            index: 'customers',
             body: { 
-                query: { 
-                    bool: { 
-                        must: [
-                            {match : {state: 'alaska'}},
-                            {match: {city: 'hamilton'}}
-                        ]
+                aggs: { 
+                    "age_stats" : { 
+                        "stats" : {
+                            field: "age"
+                        }
                     }
                 }
             }
-        })
+        })  
+        console.log(body.aggregations); 
 
 
         res.json(body.hits.hits);
