@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 const { mongoURI } = require('../config/keys')
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true })
+mongoose.connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true, poolSize: 50 })
 
 const db = mongoose.connection
 
