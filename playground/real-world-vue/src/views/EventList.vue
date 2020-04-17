@@ -2,6 +2,8 @@
   <div>
     <h1>Events Listing</h1>
     <EventCard/>
+    <BaseButton/>
+    <BaseInput/>
   </div>
 </template>
 
