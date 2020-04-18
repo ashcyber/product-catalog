@@ -31,7 +31,6 @@ const vendors = ['GBR', 'AST', 'RPC']
         name: prod.name,
         description: prod.description,
         price: getRandomArbitrary(500, 10000),
-        title_tags: prod.title_tags ? prod.title_tags : '',
         image: prod.images,
         vendor: vendors[Math.floor(Math.random() * vendors.length)],
         category: categories[Math.floor(Math.random() * categories.length)],

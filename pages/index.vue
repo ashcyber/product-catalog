@@ -53,7 +53,7 @@ export default {
     FilterBar
   },
   asyncData ({ error }) {
-    return ProductService.getProducts()
+    return ProductService.getProductsES()
       .then((result) => {
         return {
           products: result.data

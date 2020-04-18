@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const { Types } = require('mongoose')
 const Product = require('../models/product.model')
+const clientEs = require('../db/elasticsearch')
+
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find()
@@ -33,5 +35,25 @@ exports.getProductBySlug = async (req, res) => {
         res.send(product)
       }
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+exports.getProductsFromES = async (req, res) => {
+  try {
+    const { body } = await clientEs.search({
+      index: 'products',
+      size: 10000,
+      body: {
+        query: {
+          match_all: {}
+        }
+      }
+    })
+
+    res.send(body.hits.hits.map(val => val._source))
+  } catch (error) {
+    console.log(error.message)
+  }
 }

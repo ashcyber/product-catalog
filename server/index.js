@@ -37,3 +37,6 @@ async function start () {
   })
 }
 start()
+app.listen((3000), () => {
+  console.log('server is up')
+})

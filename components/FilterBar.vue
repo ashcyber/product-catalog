@@ -33,7 +33,7 @@
             max="10000"
             ticks="always"
           />
-          Price from : ${{ value1[0] }} to ${{ value1[1] }}
+          Price range : ${{ value1[0] }} to ${{ value1[1] }}
         </v-container>
       </div>
       <div class="stock-filter">
