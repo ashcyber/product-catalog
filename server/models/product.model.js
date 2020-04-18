@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema(
     keywords: {
       type: Array
     },
-    color: {
+    vendor: {
       type: String
     },
     description: String
