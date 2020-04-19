@@ -15,6 +15,15 @@
       <div class="product-price">
         Price: ${{ product.price }}
       </div>
+      <div class="tags">
+        Tags:
+        <span class="category-tag">
+          {{ product.category }}
+        </span>
+        <span class="vendor-tag">
+          {{ product.vendor }}
+        </span>
+      </div>
     </v-card>
   </div>
 </template>
@@ -28,7 +37,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .product-card-container {
     display: flex;
     justify-content: center
@@ -50,4 +59,23 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.tags {
+  padding: 20px;
+  span {
+    border-radius: 10px;
+    margin-right: 5px;
+    padding: 5px;
+    text-align: center; 
+    color: #ffffff
+  }
+
+  .vendor-tag {
+    background-color: #1867c0;  
+  }
+  .category-tag {
+    background-color: #f44336;
+  }
+
+}
+
 </style>

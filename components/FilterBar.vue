@@ -6,9 +6,9 @@
           Category Filter
         </div>
         <v-container class="filter-control-container">
-          <v-checkbox label="Party" />
-          <v-checkbox label="Camera" />
-          <v-checkbox label="Electronics" />
+          <v-checkbox v-model="category" label="Party" value="party" />
+          <v-checkbox v-model="category" label="Camera" value="cameras" />
+          <v-checkbox v-model="category" label="Electronics" value="electronics" />
         </v-container>
       </div>
       <div class="vendor-filter">
@@ -16,9 +16,9 @@
           Vendor Filter
         </div>
         <v-container class="filter-control-container">
-          <v-checkbox label="GBR" />
-          <v-checkbox label="AST" />
-          <v-checkbox label="RPC" />
+          <v-checkbox v-model="vendor" label="GBR" value="GBR" />
+          <v-checkbox v-model="vendor" label="AST" value="AST" />
+          <v-checkbox v-model="vendor" label="RPC" value="RPC" />
         </v-container>
       </div>
       <div class="price-filter">
@@ -27,23 +27,13 @@
         </div>
         <v-container class="filter-control-container">
           <v-range-slider
-            v-model="value1"
+            v-model="price"
             step="1000"
             min="0"
             max="10000"
             ticks="always"
           />
-          Price range : ${{ value1[0] }} to ${{ value1[1] }}
-        </v-container>
-      </div>
-      <div class="stock-filter">
-        <div class="filter-title">
-          In Stock
-        </div>
-        <v-container class="filter-control-container">
-          <v-checkbox label="All" />
-          <v-checkbox label="Yes" />
-          <v-checkbox label="No" />
+          Price range : ${{ price[0] }} to ${{ price[1] }}
         </v-container>
       </div>
     </div>
@@ -54,7 +44,21 @@
 export default {
   data () {
     return {
-      value1: [500, 6000]
+      price: [500, 6000],
+      category: [],
+      vendor: [],
+      stock: []
+    }
+  },
+  watch: {
+    category (value) {
+      this.$store.dispatch('setFilter', { category: value })
+    },
+    vendor (value) {
+      this.$store.dispatch('setFilter', { vendor: value })
+    },
+    price (value) {
+      this.$store.dispatch('setFilter', { price: value })
     }
   }
 }
@@ -67,8 +71,10 @@ export default {
   }
   .filter-control-container {
     padding: 10px;
+    flex: none
   }
   .filter-box {
     margin: 20px;
   }
+
 </style>

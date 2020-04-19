@@ -5,15 +5,7 @@
         class="mb-6"
         no-gutters
       >
-        <v-container class="search-row">
-          <div>
-            <v-text-field
-              solo
-              :style="searchStyle"
-              label="Search"
-            />
-          </div>
-        </v-container>
+        <SearchBar />
       </v-row>
 
       <v-row
@@ -33,7 +25,7 @@
             outlined
             tile
           >
-            <div class="container">
+            <div class="product-container">
               <ProductCard v-for="(product,index) in products" :key="index" :product="product" class="product-card" />
             </div>
           </v-card>
@@ -43,28 +35,19 @@
   </div>
 </template>
 <script>
-import ProductService from '~/services/ProductService.js'
+import { mapState } from 'vuex'
 import ProductCard from '~/components/ProductCard.vue'
 import FilterBar from '~/components/FilterBar.vue'
+import SearchBar from '~/components/SearchBar.vue'
 
 export default {
   components: {
     ProductCard,
-    FilterBar
+    FilterBar,
+    SearchBar
   },
-  asyncData ({ error }) {
-    return ProductService.getProductsES()
-      .then((result) => {
-        return {
-          products: result.data
-        }
-      })
-      .catch((e) => {
-        error({
-          statusCode: 500,
-          message: 'Unable to get products'
-        })
-      })
+  async fetch ({ store }) {
+    await store.dispatch('fetchProducts')
   },
   data () {
     return {
@@ -72,11 +55,12 @@ export default {
         width: '500px'
       }
     }
-  }
+  },
+  computed: mapState(['products', 'filters'])
 }
 </script>
-<style scoped>
-.container {
+<style>
+.product-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -88,12 +72,9 @@ export default {
   margin: 10px;
   flex:0 1 calc(20%)
 }
-.filter-container {
-  height: 100px;
-  width: 200px;
-  border: 1px solid black;
-}
+
 .search-row {
+  display: flex;
   justify-content: center;
 }
 </style>

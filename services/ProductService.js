@@ -18,7 +18,7 @@ export default {
   getProductBySlug (slug) {
     return api.get(`/product/${slug}`)
   },
-  getProductsES () {
-    return api.get('/products-es')
+  getProductsES (filters) {
+    return api.post('/products-es', filters)
   }
 }
