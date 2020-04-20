@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: `${process.env.BASE_URL}/api`,
+  baseURL: 'https://catalog-app-st.herokuapp.com/api',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
