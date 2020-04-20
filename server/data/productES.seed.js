@@ -1,4 +1,5 @@
 /* eslint-disable */
+require('dotenv').config()
 const client = require('../db/elasticsearch')
 const fs = require('fs')
 const path = require('path')
