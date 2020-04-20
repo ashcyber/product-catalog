@@ -33,7 +33,6 @@ import { mapState } from 'vuex'
 import ProductCard from '~/components/ProductCard.vue'
 import FilterBar from '~/components/FilterBar.vue'
 import SearchBar from '~/components/SearchBar.vue'
-
 export default {
   components: {
     ProductCard,

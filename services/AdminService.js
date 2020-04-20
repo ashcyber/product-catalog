@@ -3,7 +3,7 @@ import axios from 'axios'
 const Cookie = process.client ? require('js-cookie') : undefined
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: `${process.env.BASE_URL}/api`,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
