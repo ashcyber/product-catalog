@@ -20,15 +20,9 @@
         <v-col
           cols="10"
         >
-          <v-card
-            class="pa-2"
-            outlined
-            tile
-          >
-            <div class="product-container">
-              <ProductCard v-for="(product,index) in products" :key="index" :product="product" class="product-card" />
-            </div>
-          </v-card>
+          <div class="product-container">
+            <ProductCard v-for="(product,index) in products" :key="index" :product="product" class="product-card" />
+          </div>
         </v-col>
       </v-row>
     </v-container>

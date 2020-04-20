@@ -4,6 +4,7 @@ const router = express.Router()
 const adminCtrl = require('../controllers/admin.controller.js')
 
 router.post('/admin-login', adminCtrl.adminLogin)
+router.post('/admin-add-product', adminCtrl.verifyUser, adminCtrl.addProduct)
 router.post('/access', adminCtrl.verifyUser, (req, res) => {
   res.send('I am a restricted API')
 })
