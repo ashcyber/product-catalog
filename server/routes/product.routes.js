@@ -7,6 +7,5 @@ router.get('/products', productCtrl.getProducts)
 router.get('/product/:id', productCtrl.getProductById)
 router.get('/product-view/:slug', productCtrl.getProductBySlug)
 router.post('/products-es', productCtrl.getProductsFromES)
-router.get('/product-stats', productCtrl.getProductStats)
 
 module.exports = router

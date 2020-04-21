@@ -135,7 +135,7 @@ exports.getProductStats = async (req, res) => {
         count: row.price_stats.count
       })
     })
-    
+
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     res.setHeader('Content-Disposition', 'attachment; filename=' + 'Product_stats.xlsx')
 

@@ -32,3 +32,20 @@ export const logoutAdmin = async () => {
 export const postProduct = async (data) => {
  return await api.post('/admin-add-product', data)
 }
+
+
+export const downloadFile = async () => { 
+  api.get('/product-stats', {
+    responseType: 'blob'
+  }).then((response) => {
+      const url = URL.createObjectURL(new Blob([response.data], {
+        type: 'application/vnd.ms-excel'
+    }))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'product.xlsx')
+    document.body.appendChild(link)
+    link.click()
+  })
+ 
+}

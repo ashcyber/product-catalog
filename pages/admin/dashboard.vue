@@ -6,7 +6,10 @@
         dark
       >
         <v-spacer />
-        <v-btn @click="handleLogout">
+        <v-btn class="download-btn" color="primary" @click="handleDownloadFile">
+          Download Stats
+        </v-btn>
+        <v-btn color="secondary" @click="handleLogout">
           Logout
         </v-btn>
       </v-app-bar>
@@ -50,7 +53,7 @@
 
 <script>
 
-import { postProduct, logoutAdmin } from '~/services/AdminService'
+import { postProduct, logoutAdmin, downloadFile } from '~/services/AdminService'
 const values = {
   name: '',
   price: undefined,
@@ -103,6 +106,9 @@ export default {
       logoutAdmin()
       this.$store.commit('SET_AUTH', null)
       this.$router.push('/')
+    },
+    handleDownloadFile () {
+      downloadFile()
     }
   }
 }
@@ -125,5 +131,9 @@ export default {
 
 .button-area {
   text-align: center;
+}
+
+.download-btn {
+  margin-right: 10px;
 }
 </style>

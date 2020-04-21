@@ -59,7 +59,7 @@ async function start () {
     badge: true
   })
 }
-// start()
-app.listen(3000, () => {
-  console.log('Server is up')
-})
+start()
+// app.listen(3000, () => {
+//   console.log('Server is up')
+// })
