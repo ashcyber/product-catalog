@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const { Types } = require('mongoose')
+const ExcelJS = require('exceljs')
 const Product = require('../models/product.model')
 const clientEs = require('../db/elasticsearch')
 
@@ -88,5 +89,59 @@ exports.getProductsFromES = async (req, res) => {
     res.send(body.hits.hits.map(val => val._source))
   } catch (error) {
     console.log(error.message)
+  }
+}
+
+exports.getProductStats = async (req, res) => {
+  try {
+    const { body } = await clientEs.search({
+      index: 'products',
+      size: 0,
+      body: {
+        aggs: {
+          category_bucket: {
+            terms: { field: 'category' },
+            aggs: {
+              price_stats: {
+                stats: {
+                  field: 'price'
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+
+    const workbook = new ExcelJS.Workbook()
+    const worksheet = workbook.addWorksheet('Product Stats')
+
+    worksheet.columns = [
+      { header: 'Category', key: 'category', width: 20 },
+      { header: 'Min Price', key: 'min', width: 20 },
+      { header: 'Max Price', key: 'max', width: 20 },
+      { header: 'Avg Price', key: 'avg', width: 20 },
+      { header: 'Count of Items', key: 'count', width: 20 }
+    ]
+
+    const buckets = body.aggregations.category_bucket.buckets
+
+    buckets.map((row) => {
+      worksheet.addRow({
+        category: row.key,
+        min: row.price_stats.min,
+        max: row.price_stats.max,
+        avg: row.price_stats.avg.toFixed(2),
+        count: row.price_stats.count
+      })
+    })
+    
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    res.setHeader('Content-Disposition', 'attachment; filename=' + 'Product_stats.xlsx')
+
+    await workbook.xlsx.write(res)
+    res.end()
+  } catch (error) {
+    console.log(error)
   }
 }
